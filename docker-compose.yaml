@@ -2,52 +2,33 @@ version: '3.8'
 
 services:
   db:
-    image: postgres:15
+    image: postgres:15-alpine
     environment:
-      POSTGRES_DB: wallet
-      POSTGRES_USER: wallet_user
-      POSTGRES_PASSWORD: wallet_pass
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+      POSTGRES_DB: sws
+      POSTGRES_USER: sws_user
+      POSTGRES_PASSWORD: sws_pass
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U wallet_user" ]
+      test: [ "CMD-SHELL", "pg_isready -U sws_user -d sws" ]
       interval: 10s
       timeout: 5s
       retries: 5
-
-  flyway:
-    image: flyway/flyway:9
-    depends_on:
-      - db
     volumes:
-      - ./src/main/resources/db/migration:/flyway/sql
-      - ./docker/flyway-status:/flyway
-    command: >
-      -url=jdbc:postgresql://db:5432/wallet
-      -user=wallet_user
-      -password=wallet_pass
-      migrate &&
-      touch /flyway/flyway.done
+      - pgdata:/var/lib/postgresql/data
 
   app:
     build:
       context: .
     depends_on:
       - db
-      - flyway
-    volumes:
-      - ./docker/wait-for-flyway.sh:/wait-for-flyway.sh
-      - ./docker/flyway-status:/flyway
-    entrypoint: [ "/bin/bash", "/wait-for-flyway.sh" ]
-    environment:
-      SPRING_PROFILES_ACTIVE: prod
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/wallet
-      SPRING_DATASOURCE_USERNAME: wallet_user
-      SPRING_DATASOURCE_PASSWORD: wallet_pass
     ports:
       - "8080:8080"
+      - "5005:5005"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/sws
+      SPRING_DATASOURCE_USERNAME: sws_user
+      SPRING_DATASOURCE_PASSWORD: sws_pass
+      SPRING_FLYWAY_ENABLED:    "true"
 
 volumes:
   pgdata:

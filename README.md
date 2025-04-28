@@ -32,13 +32,13 @@ See the [Architectural Decision Record (ADR.md)](ADR.md) for all design and trad
 ## 🐳 Running with Docker Compose
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 This will start:
 
 - PostgreSQL on port **5432**
-- Wallet Service on port **8080**
+- Simple Wallet Service on port **8080**
 
 Visit the API docs at  
 👉 [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
