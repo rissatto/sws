@@ -3,6 +3,26 @@
     "name": "Simple Wallet Service",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string",
+      "description": "Local API running"
+    },
+    {
+      "key": "idempotencyKey",
+      "value": "00000000-0000-0000-0000-000000000000",
+      "type": "string",
+      "description": "UUID placeholder for idempotencyKey"
+    },
+    {
+      "key": "timestamp",
+      "value": "2025-04-28T00:00:00Z",
+      "type": "string",
+      "description": "timestamp for testing"
+    }
+  ],
   "item": [
     {
       "name": "Users",
@@ -121,50 +141,6 @@
                   "pm.environment.set(\"walletId\", w.id);",
                   "pm.test(\"userId correto\", () => pm.expect(w.userId).to.eql(pm.environment.get(\"userId\")));",
                   "pm.test(\"balance zero\", () => pm.expect(w.balance).to.eql(0));"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ]
-        },
-        {
-          "name": "Create Another Wallet",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Idempotency-Key",
-                "value": "{{idempotencyKey}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"userId\": \"{{userId}}\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/wallets",
-              "host": ["{{baseUrl}}"],
-              "path": ["wallets"]
-            }
-          },
-          "response": [],
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));",
-                  "const w = pm.response.json();",
-                  "pm.environment.set(\"otherWalletId\", w.id);"
                 ],
                 "type": "text/javascript"
               }
