@@ -3,6 +3,26 @@
     "name": "Simple Wallet Service",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string",
+      "description": "Local API running"
+    },
+    {
+      "key": "idempotencyKey",
+      "value": "00000000-0000-0000-0000-000000000000",
+      "type": "string",
+      "description": "UUID placeholder for idempotencyKey"
+    },
+    {
+      "key": "timestamp",
+      "value": "2025-04-28T00:00:00Z",
+      "type": "string",
+      "description": "timestamp for testing"
+    }
+  ],
   "item": [
     {
       "name": "Users",

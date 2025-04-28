@@ -87,7 +87,19 @@ mvn flyway:migrate
 
 ---
 
-## 📖 Example Usage
+## 📦 Postman Collection
+
+To facilitate manual and automated testing, we provide a ready-to-use Postman collection:
+
+1. Import the file `sws.postman_collection.json` via **File → Import** in Postman.
+2. The collection comes with the variable `{{baseUrl}}` preset to `http://localhost:8080`.
+3. Execute the full suite of requests (Create User, Create Wallet, Deposit, Withdraw, Transfer, etc.) directly in Postman.
+
+---
+
+## 📖 Example Usage - Testing via cURL
+
+If you prefer the command line, you can hit any endpoint directly with `curl`. For example:
 
 ### Create a User
 
